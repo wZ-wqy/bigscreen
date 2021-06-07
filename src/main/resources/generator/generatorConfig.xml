@@ -1,0 +1,39 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+<!--这里是1号点-->
+    <properties resource="generator/config.properties"/>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="lombok" value="Data,ToString"/>
+        </plugin>
+<!--下面占位符是由，1号点生成的，需要创建目录，因为是放在generator目录下，所以需要写入这个目录-->
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+<!--生成实体-->
+        <javaModelGenerator targetPackage="com.itzhoujun.usercenter.domain.entity.${moduleName}"
+                            targetProject="src/main/java"/>
+        <!--生成mapper.xml-->
+        <sqlMapGenerator targetPackage="com.itzhoujun.usercenter.dao.${moduleName}"
+                         targetProject="src/main/resources"/>
+        <!--生成mapper接口-->
+        <javaClientGenerator targetPackage="com.itzhoujun.usercenter.dao.${moduleName}"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+        <!--为哪张表生成代码-->
+        <table tableName="${tableName}">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+    </context>
+</generatorConfiguration>

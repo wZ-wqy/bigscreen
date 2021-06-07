@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itzhoujun.usercenter.dao.softwarecount.SoftwarecountMapper">
+  <resultMap id="BaseResultMap" type="com.itzhoujun.usercenter.domain.softwarecount.Softwarecount">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="month" jdbcType="VARCHAR" property="month" />
+    <result column="frequency" jdbcType="INTEGER" property="frequency" />
+    <result column="satisfaction" jdbcType="INTEGER" property="satisfaction" />
+    <result column="yiban" jdbcType="INTEGER" property="yiban" />
+    <result column="noSatisfaction" jdbcType="INTEGER" property="nosatisfaction" />
+    <result column="opinion" jdbcType="INTEGER" property="opinion" />
+  </resultMap>
+</mapper>

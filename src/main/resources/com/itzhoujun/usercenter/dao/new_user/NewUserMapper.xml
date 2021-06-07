@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itzhoujun.usercenter.dao.new_user.NewUserMapper">
+  <resultMap id="BaseResultMap" type="com.itzhoujun.usercenter.domain.new_user.NewUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="executorName" jdbcType="VARCHAR" property="executorname" />
+    <result column="zhudian" jdbcType="VARCHAR" property="zhudian" />
+    <result column="ecnid" jdbcType="INTEGER" property="ecnid" />
+  </resultMap>
+</mapper>

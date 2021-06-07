@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+　　<head>
+　　　　<meta charset="utf-8" />
+　　　　<title></title>
+　　　  <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.js"></script>
+		<script src="https://cdn.bootcss.com/echarts/4.7.0/echarts-en.common.js"></script>
+		<script src="layui/layui.all.js" ></script>
+
+		<link rel="stylesheet" href="layui/css/layui.css">
+
+	</head>
+		 
+		
+<body οnlοad="myfunction()">
+
+<div>
+	<button type="button" class="layui-btn layui-btn-lg" style="margin-left:20%;" onclick="edite_user('','','',3)">新增员工</button>
+</div>
+
+<div>
+	<a type="button" class="layui-btn layui-btn-lg" style="margin-left:20%;"  href="http://172.28.30.15:8086/index.html?username=admin">返回</a>
+</div>
+<div style="margin-left:30%;">
+		<from>
+			<table width="600" border="1" cellspacing="0">
+				<thead>
+				<tr>
+					<th>工号</th>
+					<th>姓名</th>
+					<th>所属部门分组</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<thead id="show_td"></thead>
+				<tbody id="tbMain"></tbody>
+			</table>
+		</from>
+</div>
+<script type="text/javascript">
+
+    function myfun() {
+
+
+
+
+        $.ajax({
+			url: "http://172.28.30.15:8086/selectStaffController/staff",
+            type: "GET",
+            data: {
+            },
+			success: function (result) {
+				console.log(result.data)
+				var html = '';
+				var data = result.data;
+				var i =0 ;
+				for( i in data){ //遍历一下json数据
+					var ecnid = "\'"+data[i].ecnid+"\'";
+					var name = "\'"+data[i].username+"\'";
+					var fenzu = "\'"+data[i].fenzu+"\'";
+					var fenzuid = "\'"+data[i].fenzuid+"\'";
+					html +='<tr style="text-align: center">';
+					html +='<td>'+data[i].ecnid+'</td>';
+					html +='<td>'+data[i].username+'</td>';
+					html +='<td>'+data[i].fenzu+'</td>';
+					html +='<td style="text-align: center"><button class="layui-btn layui-btn-sm" onclick="updateuser('+ecnid+','+name+','+fenzu+','+fenzuid+',value,2)">删除</button><button value="修改" class="layui-btn layui-btn-sm"  onclick="updateuser('+ecnid+','+name+','+fenzu+','+fenzuid+',value,1)">修改</button></td>';
+					html +='</tr>';
+				}
+				$('#show_td').html(html);
+        }
+		});
+
+    }
+    function updateuser(id,name,fenz,fenzuid,value,check_type){
+
+		 if(check_type==2){
+
+			 submit_info(id,name,fenzuid,'2')
+
+		 }else{
+			 console.log(check_type);
+			edite_user(id,name,fenz,check_type);
+
+		 }
+
+	}
+
+
+    /*用window.onload调用myfun()*/
+    window.onload = myfun;//不要括号
+
+	function add_info(ecnid,user_name,select_value,check_type){
+
+		$.ajax({
+			url: "http://172.28.30.15:8086/updateStaffController/staff",
+			type: "post",
+			data:{
+				ecnid:ecnid,
+				user_name:user_name,
+				select_value:select_value,
+				state:'',
+				check_type:check_type
+			},
+			success: function (result) {
+				if(result!=0){
+					alert("成功");
+					location.reload();
+				}
+			}
+
+		});
+
+
+
+
+
+	}
+
+
+
+
+
+
+	function submit_info(ecnid,user_name,select_value,check_type) {
+		layer.open({
+			type: 1
+			,title: false //不显示标题栏
+			,closeBtn: false
+			,area: '300px;'
+			,shade: 0.8
+			,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+			,btn: ['确定', '取消']
+			,btnAlign: 'c'
+			,moveType: 1 //拖拽模式，0或者1
+			,content:'<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">确认是否要删除吗？？？？</div>'
+			,success: function(layero){
+
+				var btn = layero.find('.layui-layer-btn');
+				btn.find('.layui-layer-btn0').click(function(){
+					$.ajax({
+						url: "http://172.28.30.15:8086/updateStaffController/staff",
+						type: "post",
+						data:{
+							ecnid:ecnid,
+							user_name:user_name,
+							select_value:select_value,
+							state:'',
+							check_type:check_type
+						},
+						success: function (result) {
+							if(result!=0){
+								alert("成功");
+								location.reload();
+							}
+						}
+
+					});
+
+				})
+
+
+			}
+		});
+
+
+
+
+
+
+
+	}
+
+	function edite_user(id,name,value,check_type){
+
+			//示范一个公告层
+			layer.open({
+				type: 1
+				,title: false //不显示标题栏
+				,closeBtn: false
+				,area: '300px;'
+				,shade: 0.8
+				,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+				,btn: ['确定', '取消']
+				,btnAlign: 'c'
+				,moveType: 1 //拖拽模式，0或者1
+				,content:show_div(id,name)
+				,success: function(layero){
+					var btn = layero.find('.layui-layer-btn');
+					btn.find('.layui-layer-btn0').click(function(){
+						var data = {};
+						 var select_value= $("#xiala ").get(0).selectedIndex-1;
+						 var ecnid =  $('#ecnid').val();
+						 var user_name =  $('#user_name').val();
+						console.log(check_type);
+						add_info(ecnid,user_name,select_value,check_type);
+
+					})
+
+
+				}
+			});
+
+
+
+	}
+function show_div(id,name) {
+	var data ;
+	$.ajax({
+		url: "http://172.28.30.15:8086/selectStaffController/staff",
+		type: "GET",
+		async: false,
+		data: {},
+		success: function (result) {
+			console.log()
+			var fenzu =[];
+			fenzu = result.zu;
+
+			var code = '';
+			//let i = 0;
+			code += '<table border="1" style="margin:20px 0 0 30px;"> <tr><td>id:</td><td><input type="text" value="'+id+'"  id="ecnid" name="ecnid" /></td></tr><tr><td>name:</td><td><input type="text" id="user_name" value="' + name + '" name="username"/></td></tr><tr>'
+			code += '<td>分组：</td><td> <select id = "xiala" >'
+
+
+			for (var i =0;i<fenzu.length;i++) {
+				code += '	<option value=' + i + '>' + fenzu[i] + '</option>'
+			}
+
+			code += '</select></td></tr></table>';
+
+			data = code;
+		}
+	})
+
+
+	return data;
+
+}
+
+
+
+
+		</script>
+
+
+ </html>

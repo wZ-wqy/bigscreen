@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itzhoujun.usercenter.dao.gongdanlist.GongdanlistMapper">
+  <resultMap id="BaseResultMap" type="com.itzhoujun.usercenter.domain.gongdanlist.Gongdanlist">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gdid" jdbcType="VARCHAR" property="gdid" />
+    <result column="kstime" jdbcType="BIGINT" property="kstime" />
+    <result column="jstime" jdbcType="BIGINT" property="jstime" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="cusAddress" jdbcType="VARCHAR" property="cusaddress" />
+    <result column="longilati" jdbcType="VARCHAR" property="longilati" />
+    <result column="executorName" jdbcType="VARCHAR" property="executorname" />
+    <result column="field_vahTMFEJgz4riJy5" jdbcType="VARCHAR" property="fieldVahtmfejgz4rijy5" />
+    <result column="field_3AKvuOidKGMs8rYa" jdbcType="VARCHAR" property="field3akvuoidkgms8rya" />
+    <result column="field_0J2DCtsLEtZ0cjZq" jdbcType="VARCHAR" property="field0j2dctsletz0cjzq" />
+    <result column="field_id0AudS1SKPyqb6H" jdbcType="VARCHAR" property="fieldId0auds1skpyqb6h" />
+    <result column="field_Hb9yHzXFuSRwAD0p" jdbcType="VARCHAR" property="fieldHb9yhzxfusrwad0p" />
+    <result column="field_h36G3FuKVEHsGp1W" jdbcType="VARCHAR" property="fieldH36g3fukvehsgp1w" />
+    <result column="field_slkS2xmmH5nEkQ30" jdbcType="VARCHAR" property="fieldSlks2xmmh5nekq30" />
+    <result column="cusName" jdbcType="VARCHAR" property="cusname" />
+    <result column="cusNo" jdbcType="VARCHAR" property="cusno" />
+    <result column="productId" jdbcType="VARCHAR" property="productid" />
+    <result column="cpname" jdbcType="VARCHAR" property="cpname" />
+    <result column="cptype" jdbcType="VARCHAR" property="cptype" />
+    <result column="serialNumber" jdbcType="VARCHAR" property="serialnumber" />
+    <result column="field_BKzX3eYzndTcLhkK" jdbcType="VARCHAR" property="fieldBkzx3eyzndtclhkk" />
+    <result column="field_Kp3R9ntn6wD0YFsS" jdbcType="VARCHAR" property="fieldKp3r9ntn6wd0yfss" />
+    <result column="list" jdbcType="LONGVARCHAR" property="list" />
+  </resultMap>
+
+  <select id="Gongdanlist" parameterType="String" resultType="Integer">
+    select gongdanlist.executorName,equipment.sbtype,count(gongdanlist.executorName) from gongdanlist left join equipment on gongdanlist.serialNumber=equipment.serialNumber   GROUP BY gongdanlist.executorName,equipment.sbtype
+  </select>
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+　　<head>
+	　　　　<meta charset="utf-8" />
+	　　　　<title></title>
+	　　　 <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.js"></script>
+	<script src="https://cdn.bootcss.com/echarts/4.7.0/echarts-en.common.js"></script>
+	<script src="layui/layui.all.js" ></script>
+
+	<link rel="stylesheet" href="layui/css/layui.css">
+</head>
+
+
+<style>
+	.main_table{
+		margin:10%  0 10% 7%;
+	}
+	.input_no_border{
+		border:0;
+		margin-left:20px;
+	}
+
+</style>
+
+
+
+<body οnlοad="myfunction()">
+
+<div>
+	<button type="button" class="layui-btn layui-btn-lg" style="margin-left:20%;" onclick="edite_user('','','insert')">新增</button>
+</div>
+<div style="margin-left:30%;">
+	<from>
+
+		<table width="600" border="1" cellspacing="0">
+			<thead>
+			<tr>
+				<th>编号</th>
+				<th>分组</th>
+			</tr>
+
+			</thead>
+			<thead id="show_td"></thead>
+			<tbody id="tbMain"></tbody>
+		</table>
+	</from>
+
+</div>
+<script type="text/javascript">
+
+
+
+
+	function myfun() {
+
+		$.ajax({
+			url: "http://172.28.30.15:8086/departmentController/department",
+			type: "GET",
+			data: {
+			},
+			success: function (result) {
+				console.log(result)
+				var html = '';
+				var data = result;
+				console.log(data[0].fenzuname);
+				var i =0 ;
+				for( i in data){ //遍历一下json数据
+					//var trow = getDataRow(data[i]); //定义一个方法,返回tr数据
+					//tbody.appendChild(trow);
+					var id = "\'"+data[i].id+"\'";
+					var fenzu = "\'"+data[i].fenzuname+"\'";
+					html +='<tr style="text-align: center">';
+					html +='<td>'+data[i].id+'</td>';
+					html +='<td>'+data[i].fenzuname+'</td>';
+					html +='<td style="text-align: center"><button value="删除" class="layui-btn layui-btn-sm" onclick="updateuser('+id+','+fenzu+',1)">删除</button><button value="修改" class="layui-btn layui-btn-sm" class="" onclick="updateuser('+id+','+fenzu+',2)">修改</button></td>';
+
+					html +='</tr>';
+
+				}
+				$('#show_td').html(html);
+
+			}
+		});
+
+	}
+	function updateuser(id,fenzu,check_type){
+
+		if(check_type==1){
+
+			submit_info(id,fenzu, 'delete')
+
+		}else{
+			edite_user(id,fenzu, 'update');
+
+		}
+
+	}
+
+
+	/*用window.onload调用myfun()*/
+	window.onload = myfun;//不要括号
+
+
+	function submit_info(id,id,fenzu, check_type) {
+
+		var id = $('#text3').val();
+		console.log(id)
+		$.ajax({
+			url: "http://172.28.30.15:8086/departmentController/update",
+			type: "post",
+			data:{
+				id:id,
+				id:id,
+				fenzu:fenzu,
+				check_type:check_type
+			},
+			success: function (result) {
+				if(result!=0){
+					alert("成功");
+					location.reload();
+				}
+			}
+
+		});
+	}
+
+	function edite_user(id,fenzu, check_type){
+		var v = "";
+		//示范一个公告层
+		layer.open({
+			type: 1
+			,title: false //不显示标题栏
+			,closeBtn: false
+			,area: '400px;'
+			,shade: 0.8
+			,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+			,btn: ['确定', '取消']
+			,btnAlign: 'c'
+			,moveType: 1 //拖拽模式，0或者1
+			,content:show_div(id,fenzu)
+			,success: function(layero){
+
+				var btn = layero.find('.layui-layer-btn');
+				btn.find('.layui-layer-btn0').click(function(){
+					// var data = {};
+					var id =  $('#id').val();
+					var fenzu =  $('#fenzu').val();
+					var check_type2 =check_type;
+					submit_info(id,fenzu, check_type2);
+
+				})
+
+			}
+		});
+
+
+
+	}
+	function show_div(id,fenzu) {
+
+		var data ;
+		show_riq();
+		var code = '';
+		code += '<table border="1" class="main_table"> <tr><td>编号:' + id + '</td>'
+		code += '<td>' + id + '</td></tr>'
+		code += '<tr><td>分组:' + fenzu + '</td>'
+		code += '<td><input class="input_no_border" type="text" id="satisfaction" name="satisfaction" value="' + fenzu + '"/></td></tr>'
+		code += '</table>'
+		data = code;
+		return data;
+
+	}
+
+
+	function show_riq(){
+		layui.use('laydate', function(){
+			var laydate = layui.laydate;
+
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#text3' //指定元素
+				, type: 'id'
+			});
+
+		});
+
+
+	}
+
+</script>
+
+</body>
+
+</html>
